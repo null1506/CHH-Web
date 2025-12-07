@@ -1,6 +1,8 @@
 No Limit Verify OTP
 https://battle.cookiearena.org/challenges/web/no-limit-verify-otp
 
+https://hackmd.io/@null1506/ry0do27q0
+
 Sau khi dùng burpsuit test các trường hợp và ra được pwd của admin là Aa123456, ta đăng nhập vào thì sẽ hiển thị verify otp, ta nhập bừa một dãy
 rồi dùng burpsuit bắt gói tin đó, ta copy headers của nó rồi chuyển thành json ( dict trong python )
 
